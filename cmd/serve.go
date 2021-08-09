@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
@@ -32,12 +33,22 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("serve called")
+		port, _ := cmd.Flags().GetInt("port")
+
+		fmt.Println(port)
+
+		if port != 0 {
+			fmt.Println("serve called on port " + strconv.Itoa(port))
+		} else {
+			fmt.Println("serve called on default port")
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(serveCmd)
+	//serveCmd.Flags().String("Port", "p", "Sets the Port")
+	serveCmd.Flags().IntP("port", "p", 0, "Sets the Port")
 
 	// Here you will define your flags and configuration settings.
 
@@ -48,4 +59,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// serveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
 }
