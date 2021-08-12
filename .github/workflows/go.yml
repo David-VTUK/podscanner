@@ -1,0 +1,30 @@
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
+
+    - name: go-semantic-release
+      # You may pin to the exact commit or the version.
+      # uses: go-semantic-release/action@66fbf3fb6938fd9a582b4afd63b486b8d1103ff1
+      uses: go-semantic-release/action@v1.15.0
