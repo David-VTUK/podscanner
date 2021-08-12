@@ -35,14 +35,10 @@ const (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cobra-demo-app",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "podscanner",
+	Short: "Scans kubernetes pods for containers using the :latest tag, or no tag",
+	Long: `A multi threaded tool that iterates through all pods in all namespaces (or filtered by --namespace)
+and identifies Pods that contain containers where the image spec is :latest or missing a tag`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
@@ -87,16 +83,15 @@ to quickly create a Cobra application.`,
 		}
 
 		// Add a buffer of 10% - in case extra containers are spun whilst this app finishes
-		numberOfContainers += (numberOfContainers / 10)
+		numberOfContainers += numberOfContainers / 10
 
 		// Grab the list of namespaces in the current context
 
 		var listOfNamespaces []string
 
 		if namespaceFromFlag != "" {
-			fmt.Printf("--namespace flag used, only scanning %s", namespaceFromFlag)
+			fmt.Printf("--namespace flag used, only scanning %s\n", namespaceFromFlag)
 			listOfNamespaces = append(listOfNamespaces, namespaceFromFlag)
-			fmt.Println(listOfNamespaces)
 		} else {
 			fmt.Printf("--namespace flag not used, only scanning all namespces\n")
 			listOfNamespaces, err = getNamespaces(ctx, clientset)
@@ -117,7 +112,6 @@ to quickly create a Cobra application.`,
 		//Iterate through the namespaces
 		for _, namespace := range listOfNamespaces {
 			//For each namespace, inspect the pods that reside it within a dedicated goroutine
-			fmt.Printf("Searching namespace: %s\n", namespace)
 			go func(n string) {
 				if err := getPodsPerNamespace(ctx, n, clientset, messages); err != nil {
 					handleError(err)
@@ -254,6 +248,6 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().StringP("namespace", "n", "", "specify namespace")
-	rootCmd.Flags().StringP("kubeconfig", "k", "", "specify kubeconfig")
+	rootCmd.Flags().StringP("namespace", "n", "", "Optional: specify namespace (if not defined, all namespaces will be scanned)")
+	rootCmd.Flags().StringP("kubeconfig", "k", "", "Optional: specify kubeconfig (if not defined, defaults to ~/.kube/config")
 }
