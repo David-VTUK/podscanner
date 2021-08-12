@@ -1,4 +1,4 @@
-module github.com/David-VTUK/cobra-demo-app
+module github.com/David-VTUK/podscanner
 
 go 1.16
 

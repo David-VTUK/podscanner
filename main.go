@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/David-VTUK/cobra-demo-app/cmd"
+import "github.com/David-VTUK/podscanner/cmd"
 
 func main() {
 	cmd.Execute()
