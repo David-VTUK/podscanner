@@ -93,7 +93,7 @@ and identifies Pods that contain containers where the image spec is :latest or m
 			fmt.Printf("--namespace flag used, only scanning %s\n", namespaceFromFlag)
 			listOfNamespaces = append(listOfNamespaces, namespaceFromFlag)
 		} else {
-			fmt.Printf("--namespace flag not used, only scanning all namespces\n")
+			fmt.Printf("--namespace flag not used, scanning all namespces\n")
 			listOfNamespaces, err = getNamespaces(ctx, clientset)
 			if err != nil {
 				handleError(err)

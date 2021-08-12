@@ -19,7 +19,7 @@ Flags:
 ```bash
 podscanner                                                         
 
---namespace flag not used, only scanning all namespces
+--namespace flag not used, scanning all namespces
 ┌─────────────┬──────────────────────────────┬───────────┬────────────────────────────────┐
 │ NAMESPACE   │ POD                          │ CONTAINER │ IMAGE                          │
 ├─────────────┼──────────────────────────────┼───────────┼────────────────────────────────┤
