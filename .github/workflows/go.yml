@@ -24,7 +24,13 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - name: go-semantic-release
-      # You may pin to the exact commit or the version.
-      # uses: go-semantic-release/action@66fbf3fb6938fd9a582b4afd63b486b8d1103ff1
-      uses: go-semantic-release/action@v1.15.0
+  release-linux-amd64:
+    name: release linux/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: wangyoucao577/go-release-action@v1.19
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: linux
+          goarch: amd64
